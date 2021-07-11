@@ -7,17 +7,29 @@ Problem statement:
 
 The goal of this project is to implement a 2-dimensional particle filter in C++. The  particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data.
 
+![Kidnapped Vehicle](images/particle_filter_kidnapped_vehicle.gif)
+
 # Project Specification
 
 ## Accuracy
-My particle filter localizes the vehicle to within the desired accuracy. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criteria.
+My particle filter localizes the vehicle to within the desired accuracy. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criterion. The screen shot confirms this:
+
+![Success](images/particle_filter_success.png)
 
 ## Performance
-My particle runs within the specified time of 100 seconds. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criteria.
+My particle runs within the specified time of 100 seconds. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criterion.
 
+The image above shows the results of a test run where my particle filter completed in 48.86 seconds.
 
 ## General
 My code uses a particle filter to localize the robot.
+
+The `PartocleFilter` class in [particle_filter.cpp](src/particle_filter.cpp) implements the particle filter. The primary functions of the particle filter class are:
+
+* `ParticleFilter::init` initializes all particles to first position (based on estimates of `x`, `y`, `theta` and their uncertainties from GPS) and all weights to `1`.
+* `ParticleFilter::prediction` adds measurements to each particle and add random Gaussian noise.
+* `ParticleFilter::updateWeights` updates the weights of each particle using a multi-variate Gaussian distribution.
+* `ParticleFilter::resample` resamples particles with replacement with probability proportional to their weight.
 
 # Building and running the project
 
@@ -37,7 +49,7 @@ src
  |-- particle_filter.h
 ```
 
-The file [particle_filter.cpp](src/particle_filter.cppa) contains the `ParticleFilter` class and associated methods. 
+The file [particle_filter.cpp](src/particle_filter.cpp) contains the `ParticleFilter` class and associated methods. 
 
 ## Inputs to the Particle Filter
 The inputs to the particle filter are in the [data](data) directory.
