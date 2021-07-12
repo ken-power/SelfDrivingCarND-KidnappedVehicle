@@ -1936,7 +1936,7 @@ Format](http://rfc7159.net/rfc7159)
     @brief create an empty value with a given type
 
     Create an empty JSON value with a given type. The value will be default
-    initialized with an empty value which depends on the type:
+    Initialized with an empty value which depends on the type:
 
     Value type  | initial value
     ----------- | -------------
@@ -2060,8 +2060,8 @@ Format](http://rfc7159.net/rfc7159)
     @brief create a container (array or object) from an initializer list
 
     Creates a JSON value of type array or object from the passed initializer
-    list @a init. In case @a type_deduction is `true` (default), the type of
-    the JSON value to be created is deducted from the initializer list @a init
+    list @a Initialize. In case @a type_deduction is `true` (default), the type of
+    the JSON value to be created is deducted from the initializer list @a Initialize
     according to the following rules:
 
     1. If the list is empty, an empty JSON object value `{}` is created.
@@ -2098,7 +2098,7 @@ Format](http://rfc7159.net/rfc7159)
     @param[in] init  initializer list with JSON values
 
     @param[in] type_deduction internal parameter; when set to `true`, the type
-    of the JSON value is deducted from the initializer list @a init; when set
+    of the JSON value is deducted from the initializer list @a Initialize; when set
     to `false`, the type provided via @a manual_type is forced. This mode is
     used by the functions @ref array(std::initializer_list<basic_json>) and
     @ref object(std::initializer_list<basic_json>).
@@ -2109,11 +2109,11 @@ Format](http://rfc7159.net/rfc7159)
     is set to `true`, this parameter has no effect
 
     @throw std::domain_error if @a type_deduction is `false`, @a manual_type
-    is `value_t::object`, but @a init contains an element which is not a pair
+    is `value_t::object`, but @a Initialize contains an element which is not a pair
     whose first element is a string; example: `"cannot create object from
     initializer list"`
 
-    @complexity Linear in the size of the initializer list @a init.
+    @complexity Linear in the size of the initializer list @a Initialize.
 
     @liveexample{The example below shows how JSON values are created from
     initializer lists.,basic_json__list_init_t}
@@ -2195,7 +2195,7 @@ Format](http://rfc7159.net/rfc7159)
 
     @return JSON array value
 
-    @complexity Linear in the size of @a init.
+    @complexity Linear in the size of @a Initialize.
 
     @liveexample{The following code shows an example for the `array`
     function.,array}
@@ -2223,7 +2223,7 @@ Format](http://rfc7159.net/rfc7159)
     @note This function is only added for symmetry reasons. In contrast to the
     related function @ref array(std::initializer_list<basic_json>), there are
     no cases which can only be expressed by this function. That is, any
-    initializer list @a init can also be passed to the initializer list
+    initializer list @a Initialize can also be passed to the initializer list
     constructor @ref basic_json(std::initializer_list<basic_json>, bool,
     value_t).
 
@@ -2231,11 +2231,11 @@ Format](http://rfc7159.net/rfc7159)
 
     @return JSON object value
 
-    @throw std::domain_error if @a init is not a pair whose first elements are
+    @throw std::domain_error if @a Initialize is not a pair whose first elements are
     strings; thrown by
     @ref basic_json(std::initializer_list<basic_json>, bool, value_t)
 
-    @complexity Linear in the size of @a init.
+    @complexity Linear in the size of @a Initialize.
 
     @liveexample{The following code shows an example for the `object`
     function.,object}
@@ -2296,7 +2296,7 @@ Format](http://rfc7159.net/rfc7159)
     @param[in] first begin of the range to copy from (included)
     @param[in] last end of the range to copy from (excluded)
 
-    @pre Iterators @a first and @a last must be initialized. **This
+    @pre Iterators @a first and @a last must be Initialized. **This
          precondition is enforced with an assertion.**
 
     @throw std::domain_error if iterators are not compatible; that is, do not
@@ -5423,16 +5423,16 @@ Format](http://rfc7159.net/rfc7159)
     This function allows to use `push_back` with an initializer list. In case
 
     1. the current value is an object,
-    2. the initializer list @a init contains only two elements, and
-    3. the first element of @a init is a string,
+    2. the initializer list @a Initialize contains only two elements, and
+    3. the first element of @a Initialize is a string,
 
-    @a init is converted into an object element and added using
-    @ref push_back(const typename object_t::value_type&). Otherwise, @a init
+    @a Initialize is converted into an object element and added using
+    @ref push_back(const typename object_t::value_type&). Otherwise, @a Initialize
     is converted to a JSON value and added using @ref push_back(basic_json&&).
 
     @param init  an initializer list
 
-    @complexity Linear in the size of the initializer list @a init.
+    @complexity Linear in the size of the initializer list @a Initialize.
 
     @note This function is required to resolve an ambiguous overload error,
           because pairs like `{"key", "value"}` can be both interpreted as
@@ -8872,7 +8872,7 @@ Format](http://rfc7159.net/rfc7159)
     This class implements a both iterators (iterator and const_iterator) for the
     @ref basic_json class.
 
-    @note An iterator is called *initialized* when a pointer to a JSON value
+    @note An iterator is called *Initialized* when a pointer to a JSON value
           has been set (e.g., by a constructor or a copy assignment). If the
           iterator is default-constructed, it is *uninitialized* and most
           methods are undefined. **The library uses assertions to detect calls
@@ -8919,7 +8919,7 @@ Format](http://rfc7159.net/rfc7159)
         @brief constructor for a given JSON instance
         @param[in] object  pointer to a JSON object for this iterator
         @pre object != nullptr
-        @post The iterator is initialized; i.e. `m_object != nullptr`.
+        @post The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             explicit iter_impl(pointer object) noexcept
                     : m_object(object)
@@ -8972,7 +8972,7 @@ Format](http://rfc7159.net/rfc7159)
             /*!
         @brief copy constructor
         @param[in] other  iterator to copy from
-        @note It is not checked whether @a other is initialized.
+        @note It is not checked whether @a other is Initialized.
         */
             iter_impl(const iter_impl & other) noexcept
                     : m_object(other.m_object), m_it(other.m_it)
@@ -8981,7 +8981,7 @@ Format](http://rfc7159.net/rfc7159)
             /*!
         @brief copy assignment
         @param[in,out] other  iterator to copy from
-        @note It is not checked whether @a other is initialized.
+        @note It is not checked whether @a other is Initialized.
         */
             iter_impl & operator=(iter_impl other) noexcept(
             std::is_nothrow_move_constructible<pointer>::value and
@@ -8998,7 +8998,7 @@ Format](http://rfc7159.net/rfc7159)
         private:
             /*!
         @brief set the iterator to the first value
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             void set_begin() noexcept
             {
@@ -9035,7 +9035,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief set the iterator past the last value
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             void set_end() noexcept
             {
@@ -9066,7 +9066,7 @@ Format](http://rfc7159.net/rfc7159)
         public:
             /*!
         @brief return a reference to the value pointed to by the iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             reference operator*() const
             {
@@ -9105,7 +9105,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief dereference the iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             pointer operator->() const
             {
@@ -9139,7 +9139,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief post-increment (it++)
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl operator++(int)
             {
@@ -9150,7 +9150,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief pre-increment (++it)
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl & operator++()
             {
@@ -9182,7 +9182,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief post-decrement (it--)
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl operator--(int)
             {
@@ -9193,7 +9193,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief pre-decrement (--it)
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl & operator--()
             {
@@ -9225,7 +9225,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: equal
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator==(const iter_impl & other) const
             {
@@ -9258,7 +9258,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: not equal
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator!=(const iter_impl & other) const
             {
@@ -9267,7 +9267,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: smaller
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator<(const iter_impl & other) const
             {
@@ -9300,7 +9300,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: less than or equal
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator<=(const iter_impl & other) const
             {
@@ -9309,7 +9309,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: greater than
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator>(const iter_impl & other) const
             {
@@ -9318,7 +9318,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  comparison: greater than or equal
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             bool operator>=(const iter_impl & other) const
             {
@@ -9327,7 +9327,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  add to iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl & operator+=(difference_type i)
             {
@@ -9358,7 +9358,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  subtract from iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl & operator-=(difference_type i)
             {
@@ -9367,7 +9367,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  add to iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl operator+(difference_type i)
             {
@@ -9378,7 +9378,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  subtract from iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             iter_impl operator-(difference_type i)
             {
@@ -9389,7 +9389,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  return difference
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             difference_type operator-(const iter_impl & other) const
             {
@@ -9416,7 +9416,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  access to successor
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             reference operator[](difference_type n) const
             {
@@ -9453,7 +9453,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  return the key of an object iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             typename object_t::key_type key() const
             {
@@ -9469,7 +9469,7 @@ Format](http://rfc7159.net/rfc7159)
 
             /*!
         @brief  return the value of an iterator
-        @pre The iterator is initialized; i.e. `m_object != nullptr`.
+        @pre The iterator is Initialized; i.e. `m_object != nullptr`.
         */
             reference value() const
             {

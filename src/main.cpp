@@ -72,14 +72,14 @@ int main()
                 if(event == "telemetry")
                 {
                     // j[1] is the data JSON object
-                    if(!pf.initialized())
+                    if(!pf.Initialized())
                     {
                         // Sense noisy position data from the simulator
                         double sense_x = std::stod(j[1]["sense_x"].get<string>());
                         double sense_y = std::stod(j[1]["sense_y"].get<string>());
                         double sense_theta = std::stod(j[1]["sense_theta"].get<string>());
 
-                        pf.init(sense_x, sense_y, sense_theta, sigma_pos);
+                        pf.Initialize(sense_x, sense_y, sense_theta, sigma_pos);
                     }
                     else
                     {
@@ -88,13 +88,13 @@ int main()
                         double previous_velocity = std::stod(j[1]["previous_velocity"].get<string>());
                         double previous_yawrate = std::stod(j[1]["previous_yawrate"].get<string>());
 
-                        pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
+                        pf.Prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
                     }
 
                     // receive noisy observation data from the simulator
                     // sense_observations in JSON format
                     //   [{obs_x,obs_y},{obs_x,obs_y},...{obs_x,obs_y}]
-                    vector<LandmarkObs> noisy_observations;
+                    vector<LandmarkObservationMeasurement> noisy_observations;
                     string sense_observations_x = j[1]["sense_observations_x"];
                     string sense_observations_y = j[1]["sense_observations_y"];
 
@@ -114,15 +114,15 @@ int main()
 
                     for(int i = 0; i < x_sense.size(); ++i)
                     {
-                        LandmarkObs obs;
+                        LandmarkObservationMeasurement obs;
                         obs.x = x_sense[i];
                         obs.y = y_sense[i];
                         noisy_observations.push_back(obs);
                     }
 
                     // Update the weights and resample
-                    pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
-                    pf.resample();
+                    pf.UpdateWeights(sensor_range, sigma_landmark, noisy_observations, map);
+                    pf.Resample();
 
                     // Calculate and output the average weighted error of the particle
                     //   filter over all time steps so far.
@@ -152,9 +152,9 @@ int main()
 
                     // Optional message data used for debugging particle's sensing
                     //   and associations
-                    msgJson["best_particle_associations"] = pf.getAssociations(best_particle);
-                    msgJson["best_particle_sense_x"] = pf.getSenseCoord(best_particle, "X");
-                    msgJson["best_particle_sense_y"] = pf.getSenseCoord(best_particle, "Y");
+                    msgJson["best_particle_associations"] = pf.GetAssociations(best_particle);
+                    msgJson["best_particle_sense_x"] = pf.GetSenseCoord(best_particle, "X");
+                    msgJson["best_particle_sense_y"] = pf.GetSenseCoord(best_particle, "Y");
 
                     auto msg = "42[\"best_particle\"," + msgJson.dump() + "]";
                     // std::cout << msg << std::endl;
