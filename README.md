@@ -1,11 +1,11 @@
 # Kidnapped Vehicle Project
 
-This project is part of [Udacity](https://www.udacity.com)'s [Self-driving Car Engineer Nanodegree](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) program. 
+I completed this project as part of [Udacity](https://www.udacity.com)'s [Self-driving Car Engineer Nanodegree](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013). 
 
-Problem statement:
+Problem statement for this project:
 > Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-The goal of this project is to implement a 2-dimensional particle filter in C++. The  particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data.
+The goal of this project is to implement a **2-dimensional particle filter** in C++. The  particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data.
 
 This animated GIF shows an extract of my particle filter in action as it communicates with the simulator:
 
@@ -13,7 +13,7 @@ This animated GIF shows an extract of my particle filter in action as it communi
 
 This is a sparse localization problem, i.e., we are building an end-to-end localizer where we are localizing relative to a sparse set of landmarks using particle filters. 
 
-# Project Specification
+# Project Results
 
 ## Accuracy
 My particle filter localizes the vehicle to within the desired accuracy. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criterion. The screenshot confirms this:
@@ -34,12 +34,12 @@ The `PartocleFilter` class in [particle_filter.cpp](src/particle_filter.cpp) imp
 
 ![Particle Filter Pseudo Code](images/particle_filter_pseudo_code.png)
 
-The primary functions in the particle filter class reflect the main steps described in the flowchart and pseudocode above, i.e., initialization, prediction, update weights, and resample:
+The primary functions in the particle filter class reflect the main steps described in the flowchart and pseudocode above, i.e., initialization, Prediction, update weights, and Resample:
 
-* `ParticleFilter::init` initializes all particles to first position (based on estimates of `x`, `y`, `theta` and their uncertainties from GPS) and all weights to `1`.
-* `ParticleFilter::prediction` adds measurements to each particle and add random Gaussian noise.
-* `ParticleFilter::updateWeights` updates the weights of each particle using a multi-variate Gaussian distribution.
-* `ParticleFilter::resample` resamples particles with replacement with probability proportional to their weight.
+* `ParticleFilter::Initialize` initializes all particles to first position (based on estimates of `x`, `y`, `theta` and their uncertainties from GPS) and all weights to `1`.
+* `ParticleFilter::Prediction` adds measurements to each particle and add random Gaussian noise.
+* `ParticleFilter::UpdateWeights` updates the weights of each particle using a multi-variate Gaussian distribution.
+* `ParticleFilter::Resample` resamples particles with replacement with probability proportional to their weight.
 
 # Building and running the project
 
@@ -83,21 +83,6 @@ This is a sample extract from [map_data.txt](data/map_data.txt) showing what the
 
 Map data provided by [3D Mapping Solutions GmbH](#References).
 
-## Running the localizer
-Running the localizer from a command line produces the following output: 
-
-```text
-./particle_filter 
-Listening to port 4567
-Connected!!!
-highest w 0.00056296
-average w 0.000445313
-highest w 0.000735166
-average w 0.000513278
-highest w 0.138378
-...
-```
-
 ## Important Dependencies
 
 * cmake >= 3.5
@@ -122,6 +107,21 @@ highest w 0.138378
     * On Windows, you may need to run: `cmake .. -G "Unix Makefiles" && make`
 4. Run it: `./particle_filter`
 
+Running the localizer from a command line produces the following output:
+
+```text
+./particle_filter 
+Listening to port 4567
+Connected!!!
+highest w 0.00056296
+average w 0.000445313
+highest w 0.000735166
+average w 0.000513278
+highest w 0.138378
+...
+```
+
+
 # References
 * Mapping Data. [3D Mapping Solutions GmbH](https://www.3d-mapping.de)
 * Wikipedia. [Particle Filter](https://en.wikipedia.org/wiki/Particle_filter).
@@ -133,3 +133,6 @@ highest w 0.138378
 * http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 * University of Texas. [Coordinate Transformations](http://farside.ph.utexas.edu/teaching/336k/Newtonhtml/node153.html).
 * Mini Physics. [Coordinate Transformation Under Rotation](https://www.miniphysics.com/coordinate-transformation-under-rotation.html).
+* Udacity. [Self-driving Car Engineer Nanodegree](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013). GitHub repos, Knowledge base, student/mentor community chat.
+* Sebastian Thrun, 2002. [Robotic mapping: A survey](http://robots.stanford.edu/papers/thrun.mapping-tr.pdf).
+* Saeedi, S., Bodin, B., Wagstaff, H., Nisbet, A., Nardi, L., Mawer, J., Melot, N., Palomar, O., Vespa, E., Spink, T. and Gorgovan, C., 2018. [Navigating the landscape for real-time localization and mapping for robotics and virtual and augmented reality](https://arxiv.org/abs/1808.06352). Proceedings of the IEEE, 106(11), pp.2020-2039.
