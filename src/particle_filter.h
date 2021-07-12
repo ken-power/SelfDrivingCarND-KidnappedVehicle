@@ -110,9 +110,9 @@ public:
     /**
      * Used for obtaining debugging information related to particles.
      */
-    std::string getAssociations(Particle best);
+    std::string getAssociations(const Particle& best);
 
-    std::string getSenseCoord(Particle best, std::string coord);
+    std::string getSenseCoord(const Particle& best, const std::string& coord);
 
     // Set of current particles
     std::vector<Particle> particles;

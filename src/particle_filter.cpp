@@ -4,14 +4,13 @@
 
 #include "particle_filter.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
-#include <iostream>
 #include <iterator>
-#include <numeric>
 #include <random>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "helper_functions.h"
 
@@ -21,6 +20,9 @@ using std::random_device;
 using std::default_random_engine;
 using std::normal_distribution;
 using std::discrete_distribution;
+using std::cout;
+using std::endl;
+
 
 /**
  * Set the number of particles. Initialize all particles to first position (based on estimates of x, y, theta and
@@ -29,6 +31,10 @@ using std::discrete_distribution;
  * Add random Gaussian noise to each particle.
  *
  * NOTE: Consult particle_filter.h for more information about this method (and others in this file).
+ *
+ * (x,y) is a GPS position
+ * theta is an initial heading estimate
+ * std[] is an array of uncertainties for these measurements
  */
 void ParticleFilter::init(double x, double y, double theta, double std[])
 {
@@ -69,6 +75,11 @@ void ParticleFilter::init(double x, double y, double theta, double std[])
  * and std::default_random_engine are useful.
  * http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
  * http://www.cplusplus.com/reference/random/default_random_engine/
+ *
+ * delta_t is the amount of time between time steps
+ * std_pos[] is the measurement uncertainties associated with the velocity and yaw rate
+ * velocity is the current time step's velocity measurement
+ * yaw_Rate is the current time step's yaw rate measurement
  */
 void ParticleFilter::prediction(double delta_t, double std_pos[], double velocity, double yaw_rate)
 {
@@ -105,7 +116,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
         particles[i].y += dist_y(particle_generator);
         particles[i].theta += dist_theta(particle_generator);
     }
-
 }
 
 /**
@@ -117,6 +127,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
  */
 void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, vector<LandmarkObs> & observations)
 {
+    cout << "Particle Filter: dataAssociation()" << endl;
 }
 
 /**
@@ -155,13 +166,13 @@ void ParticleFilter::updateWeights(double sensor_range,
         double multiVariateGaussianDistribution = 1.0;
 
         // For each observation
-        for(int j = 0; j < observations.size(); ++j)
+        for(const auto & observation : observations)
         {
             // Transform the observation point (from vehicle coordinates to map coordinates)
             double trans_obs_x, trans_obs_y;
-            trans_obs_x = observations[j].x * cos(particles[i].theta) - observations[j].y * sin(particles[i].theta) +
+            trans_obs_x = observation.x * cos(particles[i].theta) - observation.y * sin(particles[i].theta) +
                           particles[i].x;
-            trans_obs_y = observations[j].x * sin(particles[i].theta) + observations[j].y * cos(particles[i].theta) +
+            trans_obs_y = observation.x * sin(particles[i].theta) + observation.y * cos(particles[i].theta) +
                           particles[i].y;
 
             // Find nearest landmark
@@ -188,8 +199,7 @@ void ParticleFilter::updateWeights(double sensor_range,
             }
 
             // Associate the observation point with its nearest landmark neighbor
-            int min_pos = distance(landmark_obs_dist.begin(),
-                                   min_element(landmark_obs_dist.begin(), landmark_obs_dist.end()));
+            int min_pos = distance(landmark_obs_dist.begin(), min_element(landmark_obs_dist.begin(), landmark_obs_dist.end()));
             float nn_x = landmarks[min_pos].x_f;
             float nn_y = landmarks[min_pos].y_f;
 
@@ -246,10 +256,11 @@ void ParticleFilter::SetAssociations(Particle & particle,
     particle.sense_y = sense_y;
 }
 
-string ParticleFilter::getAssociations(Particle best)
+string ParticleFilter::getAssociations(const Particle& best)
 {
     vector<int> v = best.associations;
     std::stringstream ss;
+
     copy(v.begin(), v.end(), std::ostream_iterator<int>(ss, " "));
     string s = ss.str();
     s = s.substr(0, s.length() - 1);  // get rid of the trailing space
@@ -257,7 +268,7 @@ string ParticleFilter::getAssociations(Particle best)
     return s;
 }
 
-string ParticleFilter::getSenseCoord(Particle best, string coord)
+string ParticleFilter::getSenseCoord(const Particle& best, const string& coord)
 {
     vector<double> v;
 
@@ -271,8 +282,10 @@ string ParticleFilter::getSenseCoord(Particle best, string coord)
     }
 
     std::stringstream ss;
+
     copy(v.begin(), v.end(), std::ostream_iterator<float>(ss, " "));
     string s = ss.str();
     s = s.substr(0, s.length() - 1);  // get rid of the trailing space
+
     return s;
 }
