@@ -18,7 +18,11 @@ This is a sparse localization problem, i.e., we are building an end-to-end local
 ## Accuracy
 My particle filter localizes the vehicle to within the desired accuracy. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criterion. The screenshot confirms this:
 
-![Success](images/particle_filter_success.png)
+Running On my Mac | Running On Udacity's Workspace and Simulator
+:---:|:---:
+![Success on my Mac](images/particle_filter_success.png)|![Success on Udacity workspace](images/particle_filter_success_on_udacity_workspace.png)
+
+The [logs](logs) directory contains a set of logs captured from different successful runs. One of the log files is [the output from running on Udacity's simulator](logs/output_udacity_sim.txt); the other three are from running on my Mac.
 
 ## Performance
 My particle runs within the specified time of 100 seconds. The output says `"Success! Your particle filter passed!"` which means my particle filter meets this criterion.
