@@ -57,7 +57,7 @@ void ParticleFilter::Initialize(double x, double y, double theta, double *std)
     normal_distribution<double> dist_theta(theta, std[2]);
 
     // Initializes particles from the normal distributions set above
-    for(int i = 0; i < num_particles; ++i)
+    for(int i = 0; i < num_particles; i++)
     {
         particles[i].id = i;
         particles[i].x = dist_x(particle_generator);
@@ -82,17 +82,17 @@ void ParticleFilter::Initialize(double x, double y, double theta, double *std)
  */
 void ParticleFilter::Prediction(double delta_t, double *std_pos, double velocity, double yaw_rate)
 {
-    // Engine for later generation of particles
-    default_random_engine particle_generator;
-
     // Make distributions for adding noise
     normal_distribution<double> dist_x(0, std_pos[0]);
     normal_distribution<double> dist_y(0, std_pos[1]);
     normal_distribution<double> dist_theta(0, std_pos[2]);
 
+    // Engine for generating particles
+    default_random_engine particle_generator;
+
     for(int i = 0; i < num_particles; i++)
     {
-        if(abs(yaw_rate) != 0)
+        if(fabs(yaw_rate) != 0)
         {
             // Add measurements to particles
             particles[i].x +=
@@ -188,7 +188,7 @@ void ParticleFilter::UpdateWeights(double sensor_range,
     const double y_denominator = 2 * std_landmark[1] * std_landmark[1];
 
     // Iterate through each particle
-    for(int i = 0; i < num_particles; ++i)
+    for(int i = 0; i < num_particles; i++)
     {
         double observation_weight = 1.0;
 
@@ -208,7 +208,7 @@ void ParticleFilter::UpdateWeights(double sensor_range,
             vector<double> landmark_observation_dist(landmarks.size());
 
             // For each landmark ...
-            for(int k = 0; k < landmarks.size(); ++k)
+            for(int k = 0; k < landmarks.size(); k++)
             {
                 // Reduce number of landmarks to those in sensor range of the particle
                 double landmark_part_dist = sqrt(
@@ -263,7 +263,7 @@ void ParticleFilter::Resample()
     random_device rd;
     default_random_engine particle_generator(rd());
 
-    for(int i = 0; i < num_particles; ++i)
+    for(int i = 0; i < num_particles; i++)
     {
         discrete_distribution<int> index(weights.begin(), weights.end());
         new_particles[i] = particles[index(particle_generator)];
