@@ -117,11 +117,14 @@ Running the localizer from a command line produces the following output:
 ./particle_filter 
 Listening to port 4567
 Connected!!!
-highest w 0.00056296
-average w 0.000445313
-highest w 0.000735166
-average w 0.000513278
-highest w 0.138378
+highest w 0.000845635
+average w 0.000739481
+highest w 0.176343
+average w 0.111015
+highest w 0.0607588
+average w 0.0365814
+highest w 0.0291006
+average w 0.0159773
 ...
 ```
 
